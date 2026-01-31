@@ -1,4 +1,7 @@
 dependencies = [
     {handle = "anthropics/skills/frontend-design", type = "skill"},
     {handle = "kasperjunge/make-research", type = "skill"},
+    {handle = "anthropics/skills/skill-creator", type = "skill"},
+    {handle = "anthropics/skills/doc-coauthoring", type = "skill"},
+    {handle = "anthropics/skills/pptx", type = "skill"},
 ]
