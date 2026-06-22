@@ -46,23 +46,27 @@ and **a failed gate sends work back — it is never waved through:**
   └──────────────┘
         │
         ▼
-  YOU review the rendered preview  →  /ship promotes dev→prod (human-gated)
+  YOU review the rendered preview  →  ship promotes dev→prod (human-gated)
         │
         ▼
-  /retro folds lessons back into the team's own files
+  retro folds lessons back into the team's own files
 ```
+
+Throughout, the orchestrator keeps durable state in `.planning/` (see below) and
+commits atomically, so a fresh context can resume exactly where the last one
+stopped — the gsd discipline that makes overnight runs real rather than risky.
 
 ## The roster
 
 | Role | Construct | Model | Why it exists |
 |---|---|---|---|
-| **Team-lead / orchestrator** | `/build` command (main session) | — | Sequences the loop and enforces gates. It's the main session, not a subagent, because only the main thread can actually coordinate and spawn the others. |
+| **Team-lead / orchestrator** | `build` skill (main session) | — | Sequences the loop, enforces gates, keeps `.planning/` state. It's the main session, not a subagent, because only the main thread can actually coordinate and spawn the others. |
 | **Solution architect** | `solution-architect` agent (3 modes) | opus | The judgment role. `discovery` = value-prop gate; `design` = the build's contracts; `review` = architecture + value-prop-drift check. Critical by default. |
 | **Research scout** | `make-research` skill (reused) | — | Pure observation of existing code before changing it. You already owned this. |
 | **Coder ×2** | `coder` agent (spawn in parallel) | sonnet | Build a single bounded unit each, with tests, in dev only. |
 | **Code reviewer** | `code-reviewer` agent | opus | Correctness + security — the bugs that bite in prod. Separate from architecture review. |
 | **Verifier (QA)** | `verifier` agent | sonnet | The mechanical gate: tests/build pass + a live preview URL. This is what makes unattended runs safe. |
-| **Self-improvement** | `agent-retro` skill + `/retro` | — | Edits the team's own definitions after each run so it needs fewer corrections over time. |
+| **Self-improvement** | `agent-retro` skill + `retro` | — | Edits the team's own definitions after each run so it needs fewer corrections over time. |
 
 ### Why these additions to your original five
 You asked for a team-lead, a discovery architect, two coders, and an architecture
@@ -98,19 +102,47 @@ warrant the full loop at all.
 - The default stack (Next.js + Vercel/Netlify, preview-per-branch) is chosen for
   exactly the preview→approve→promote flow your model needs.
 
+## Autonomy & the get-shit-done influence
+
+The first cut had gates but no memory, and you had to name a command for each step.
+Three things from [get-shit-done](https://github.com/gsd-build/get-shit-done) close
+that gap and make the team genuinely autonomous:
+
+- **Durable state in `.planning/`.** A build writes `PROJECT.md` (what + the value
+  proposition), `ROADMAP.md` (phases + status), and per-phase `PLAN.md`/`SUMMARY.md`.
+  Long or overnight runs resume from disk, not from a degrading chat context. See
+  the `spec-state` skill; read it any time with the `progress` skill.
+- **Fresh-context delegation.** Each specialist (research, coding, review, verify)
+  runs in its own clean window; the main session stays lean. This is how the team
+  avoids "context rot" on big jobs.
+- **A quick path + atomic commits.** Not every task earns the full loop — `quick`
+  handles small edits with a branch and one clean commit. Every task is its own
+  atomic commit so git history and `.planning/` agree.
+
+And **`CLAUDE.md`** is the operating posture: when a task arrives, the main session
+classifies it and routes to the lightest safe path on its own (idea → `discovery`,
+tiny edit → `quick`, real build → `build`, resume → `progress`), and reaches for
+the right method skills without being told. That's the "more autonomous, fits my
+style" layer.
+
 ## Using it
 
-- **A whole job:** `/build <paste the request or client email>` — runs the full loop.
-- **Just pressure-test an idea/edit:** `/discovery <the idea>` — returns a
-  GO/NO-GO/RESHAPE brief, builds nothing.
-- **Promote an approved change:** `/ship <change>` — runs the dev→prod checklist.
-- **Tune the team:** `/retro` — applies lessons to the agent/skill files.
+- **A whole job:** `build <paste the request or client email>` — runs the full loop.
+- **Pressure-test an idea/edit:** `discovery <the idea>` — GO/NO-GO/RESHAPE, builds nothing.
+- **A small edit:** `quick <the change>` — fast path, still safe.
+- **Where are we:** `progress` — reads `.planning/`, says what's next (great for resuming).
+- **Promote an approved change:** `ship <change>` — the dev→prod checklist.
+- **Tune the team:** `retro` — applies lessons to the agent/skill/`CLAUDE.md` files.
 - The subagents (`solution-architect`, `coder`, `code-reviewer`, `verifier`) are
   also invokable directly when you want one step.
 
+You usually won't type these — with `CLAUDE.md` installed, the session routes
+itself. Naming a skill is the override, not the default.
+
 ## Extending the team
 Add a skill with the `skill-creator` skill, drop new agents in `.claude/agents/`,
-new commands in `.claude/commands/`, then re-run `scripts/install-global.sh` (or
-`agr sync -g`) to push the update everywhere. Keep agent prompts lean and push the
-detailed "how" into skills — that's the progressive-disclosure pattern that keeps
-the harness maintainable. Let `/retro` drive most changes; resist accreting rules.
+new entry points as skills in `.claude/skills/`, then re-run
+`scripts/install-global.sh` (or `agr sync -g`) to push the update everywhere. Keep
+agent prompts lean and push the detailed "how" into skills — the progressive-
+disclosure pattern that keeps the harness maintainable. Let `retro` drive most
+changes; resist accreting rules.

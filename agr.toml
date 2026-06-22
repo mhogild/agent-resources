@@ -12,11 +12,20 @@ dependencies = [
     {handle = "anthropics/skills/doc-coauthoring", type = "skill"},
     {handle = "anthropics/skills/pptx", type = "skill"},
 
-    # --- this library's own team skills (first-party; published via this repo) ---
+    # --- this library's own workflow skills (the entry points / "team-lead") ---
+    {path = "./.claude/skills/build", type = "skill"},
+    {path = "./.claude/skills/discovery", type = "skill"},
+    {path = "./.claude/skills/quick", type = "skill"},
+    {path = "./.claude/skills/ship", type = "skill"},
+    {path = "./.claude/skills/progress", type = "skill"},
+    {path = "./.claude/skills/retro", type = "skill"},
+
+    # --- this library's own method skills (the "how" the agents load) ---
     {path = "./.claude/skills/discovery-value-proposition", type = "skill"},
     {path = "./.claude/skills/discover-solution-space", type = "skill"},
     {path = "./.claude/skills/architecture-design", type = "skill"},
     {path = "./.claude/skills/work-breakdown", type = "skill"},
+    {path = "./.claude/skills/spec-state", type = "skill"},
     {path = "./.claude/skills/dev-prod-isolation", type = "skill"},
     {path = "./.claude/skills/code-review-rubric", type = "skill"},
     {path = "./.claude/skills/verify-changes", type = "skill"},
