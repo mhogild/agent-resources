@@ -57,7 +57,7 @@ that gates the next step.
 
 ```
 # Discovery Brief — <project>
-Date · Author (solution-architect)
+Date · Author (product-manager)
 
 ## The ask (as stated)
 ## Buyer & pain (painkiller or vitamin? why)

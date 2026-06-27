@@ -9,8 +9,10 @@ real safety gates, and **you review the final product** as a live preview before
 anything reaches a client's live system. Designed to run a long way on its own —
 even overnight — without producing confidently-broken work.
 
-It blends two influences: gated, role-based delegation (PlatformPlatform-style) and
-spec-driven, context-disciplined execution from
+It blends three influences: an empowered **product team** with a PM/designer/engineer
+trio, continuous discovery, and dual-track sprints (Marty Cagan, *INSPIRED*);
+gated, role-based delegation (PlatformPlatform-style); and spec-driven,
+context-disciplined execution from
 [get-shit-done](https://github.com/gsd-build/get-shit-done) — durable `.planning/`
 state, fresh-context subagents, atomic commits, and a quick path.
 
@@ -19,20 +21,27 @@ state, fresh-context subagents, atomic commits, and a quick path.
 
 ## The team
 
-| Role | What it is | How it shows up |
+A product **trio** + engineers + quality gates, run as two parallel tracks:
+
+| Role | What it owns | How it shows up |
 |---|---|---|
-| Team-lead / orchestrator | runs the whole loop, enforces the gates, keeps `.planning/` state | `build` skill (main session) |
-| Solution architect | discovery / design / architecture-review (critical-by-default gate) | `solution-architect` agent · `discovery` skill |
-| Coder ×2 | build bounded units in parallel, fresh context, dev only, with tests | `coder` agent |
+| Orchestrator | runs both tracks, enforces gates, keeps `.planning/` state | `build` skill (main session) |
+| Product manager | value + viability; customer/data/business/industry expert; leads discovery | `product-manager` agent · `discovery` skill |
+| Product designer | usability + whole experience; prototypes to validate | `product-designer` agent |
+| Tech lead | feasibility + architecture; engineer in discovery early; contracts; leads delivery | `tech-lead` agent |
+| Coder ×N (engineers) | build vertical slices in sprints, fresh context, dev only, with tests | `coder` agent |
 | Code reviewer | correctness + security | `code-reviewer` agent |
 | Verifier (QA) | tests/build pass + a live preview URL | `verifier` agent |
 | Self-improvement | tunes the team after each run | `retro` skill |
 
-The loop, with four gates that send work back when they fail:
+Two tracks, discovery staying a step ahead of delivery:
 
 ```
-discovery ─▶ design ─▶ work-breakdown ─▶ build (×2 coders) ─▶ review ─▶ verify ─▶ you approve preview ─▶ ship
-  GATE 1      GATE 2                                          GATE 3     GATE 4        human gate
+DISCOVERY (continuous)   trio tackles 4 risks (value·usability·feasibility·viability) ─▶ prototype ─▶ GO brief
+        │ (stays ahead, feeds validated work)
+        ▼
+DELIVERY (sprints)       design+contracts ─▶ slice ─▶ [build → review → verify → demo] ×each sprint ─▶ you approve ─▶ ship
+                                                        coders    2 gates   QA gate    preview      human gate
 ```
 
 ## Entry-point skills (you invoke these)
@@ -50,6 +59,7 @@ them on its own — classify the task, then route to the lightest safe path.
 
 ## Method skills (the agents load these)
 
+`product-discovery` · `prototype-to-validate` · `sprint-delivery` ·
 `discovery-value-proposition` · `discover-solution-space` · `architecture-design` ·
 `work-breakdown` · `spec-state` · `dev-prod-isolation` · `code-review-rubric` ·
 `verify-changes` · `agent-retro` — alongside consumed skills (`frontend-design`,
@@ -91,7 +101,7 @@ install globally) to use the full team there.
 
 ```
 CLAUDE.md            operating manual / autonomy posture (also installed globally)
-.claude/agents/      solution-architect, coder, code-reviewer, verifier
+.claude/agents/      product-manager, product-designer, tech-lead, coder, code-reviewer, verifier
 .claude/skills/      entry-point + method skills (+ consumed skills)
 docs/                AGENT-TEAM.md (playbook), team-changelog.md
 scripts/             install-global.sh

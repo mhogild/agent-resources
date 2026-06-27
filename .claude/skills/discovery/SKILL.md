@@ -1,32 +1,34 @@
 ---
 name: discovery
 description: >
-  Pressure-test the value of an idea, project, feature, or edit — without building
-  anything. Produces a critical Discovery Brief with a GO / NO-GO / RESHAPE
-  verdict. Use at the start of anything new or uncertain, or when asked "is this
-  worth building / what's the value." Run this before `build` on new directions.
-argument-hint: <the idea, feature, or edit to pressure-test>
+  Run product discovery on an idea, feature, or edit — without building it. The
+  product trio tackles the four risks (value, usability, feasibility, viability) and
+  returns a Product Brief with GO / NO-GO / RESHAPE. Use at the start of anything new
+  or uncertain, or when asked "is this worth building / what's the value." Run this
+  before `build` on new directions.
 ---
 
-# discovery — pressure-test the value proposition
+# discovery — decide what's worth building
 
-Delegate to the **solution-architect** in `discovery` mode. Its job is to be a
-critical friend, not a cheerleader — find the weakest load-bearing assumption and
-pull on it before anything gets built.
+Delegate to the **product-manager** to lead `product-discovery` with the
+**product-designer** and **tech-lead** present from the start. The job is to retire
+risk cheaply and decide, not to cheerlead or to write a big document.
 
 The thing to evaluate: **$ARGUMENTS**
 
-The architect loads `discovery-value-proposition` and forces the questions:
-painkiller vs vitamin, who pays and for what outcome, the real scope/wedge, the
-moat, liability/compliance, and the cheapest falsifying test. It explores the
-solution space (`discover-solution-space`) and returns a **Discovery Brief** ending
-in **GO / NO-GO / RESHAPE**.
+The trio works the four risks:
+- **Value** (PM) — painkiller vs vitamin, who pays for what outcome, real demand;
+  deep-dive with `discovery-value-proposition`.
+- **Usability** (designer) — the real flow, where people get stuck; a cheap
+  prototype where it helps (`prototype-to-validate`).
+- **Feasibility** (tech-lead) — what's hard/expensive to build and run, integrate vs
+  build, a spike for real unknowns.
+- **Viability** (PM) — agency economics, support tail, GDPR/processor duties.
 
-For an **edit to an existing product**, it also checks: does this still match the
-current value proposition, does it actually add value, and does it fit the existing
+For an **edit to an existing product**, also check: does it still serve the current
+value proposition, does it actually add value, and does it fit the existing
 architecture — or is it drift?
 
-Report the brief back to the human. Do not start designing or building from a
-discovery call. If the verdict is GO and the human wants to proceed, that's the
-`build` loop — which will write the brief's value proposition into
-`.planning/PROJECT.md`.
+Return the **Product Brief** with **GO / NO-GO / RESHAPE** to the human. Build
+nothing here. If GO and the human wants to proceed, that's the `build` loop — which
+carries the brief's value proposition into `.planning/PROJECT.md`.

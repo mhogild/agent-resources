@@ -12,6 +12,21 @@ production with agents; **the human reviews the final product**, not every step.
 Value-first and critical by default — a website is often a *vitamin*, not a
 painkiller; say so before building one.
 
+## The team (INSPIRED-style product team)
+A product **trio** plus engineers and quality gates, run as two parallel tracks:
+- **product-manager** — value + viability; expert in the customer, data, business,
+  industry. Leads discovery, holds the value proposition.
+- **product-designer** — usability + the whole experience; prototypes to validate.
+- **tech-lead** — feasibility + architecture; the engineer who is *in discovery from
+  the start*, owns the contracts, leads delivery, reviews architecture.
+- **coder** ×N — the engineers; build thin vertical slices in sprints.
+- **code-reviewer** (correctness/security) and **verifier** (tests/build + preview)
+  — the gates that make unattended runs safe.
+
+Discovery (the trio tackling the four risks: value, usability, feasibility,
+viability) runs a step **ahead** of delivery (sprints); engineers join early, and we
+**prototype to de-risk before building**. Outcomes over output.
+
 ## Default posture: classify, then route (do this without being asked)
 When a task arrives, silently classify it and pick the lightest path that's safe:
 
@@ -19,8 +34,11 @@ When a task arrives, silently classify it and pick the lightest path that's safe
   → run the `discovery` skill first. Never skip straight to building a vitamin.
 - **Trivial, low-risk edit** (copy change, a single obvious fix, a config tweak)
   → use the `quick` skill: do it on a branch, atomic commit, no full loop.
-- **A real feature or a new build** → run the full `build` loop (discovery →
-  design → work-breakdown → parallel coders → review → verify → human preview).
+- **A real feature or a new build** → run the dual-track `build` loop: the trio's
+  discovery (four risks, prototype to de-risk) feeding sprint delivery (engineers
+  build vertical slices → review → verify → human preview). Scale the ceremony to
+  the inquiry — a feature is light discovery + one sprint; a product is full
+  discovery + phased sprints.
 - **Resuming / "where are we?"** → run the `progress` skill (reads `.planning/`).
 - **Something went wrong / "tune the agents"** → run the `retro` skill.
 
@@ -30,6 +48,10 @@ full loop because…") so the human can redirect before you spend effort.
 ## Non-negotiables (the gates)
 - **Discovery is a gate, not advice.** No build proceeds past a NO-GO without an
   explicit human override.
+- **Engineers in discovery early, and discovery stays ahead of delivery.** The
+  tech-lead shapes solutions as they form; we prototype to retire the biggest risk
+  before committing engineering. Never hand a finished spec to engineers who weren't
+  in the room.
 - **Verification before human review.** Nothing reaches the human's preview until
   the `verifier` is GREEN. "Agents ran overnight" is only safe because of this.
 - **Dev/prod isolation always.** Agents work on a branch in dev/preview, never

@@ -21,6 +21,9 @@ dependencies = [
     {path = "./.claude/skills/retro", type = "skill"},
 
     # --- this library's own method skills (the "how" the agents load) ---
+    {path = "./.claude/skills/product-discovery", type = "skill"},
+    {path = "./.claude/skills/prototype-to-validate", type = "skill"},
+    {path = "./.claude/skills/sprint-delivery", type = "skill"},
     {path = "./.claude/skills/discovery-value-proposition", type = "skill"},
     {path = "./.claude/skills/discover-solution-space", type = "skill"},
     {path = "./.claude/skills/architecture-design", type = "skill"},

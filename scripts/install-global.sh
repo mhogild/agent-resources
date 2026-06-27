@@ -41,4 +41,4 @@ fi
 
 echo "Done. The team is now available in every project via the build, discovery,"
 echo "quick, ship, progress and retro skills, plus the subagents"
-echo "(solution-architect, coder, code-reviewer, verifier)."
+echo "(product-manager, product-designer, tech-lead, coder, code-reviewer, verifier)."

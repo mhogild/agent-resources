@@ -1,148 +1,151 @@
 # The Agent Team — Playbook
 
-A production-oriented team of coding agents for Claude Code, built for the way you
-work: you take in digital jobs (websites, booking systems, webshops, edits) for
-small businesses, the agents do the production, and **you review the final product
-behind a real safety gate.** It's designed so agents can run a long way on their
-own — even overnight — without you waking up to confidently-broken code.
+A production-oriented **product team** for Claude Code, built for the way you work:
+you take in digital jobs (websites, booking systems, webshops, edits) for small
+businesses, the team does the production, and **you review the final product behind
+a real safety gate.** It's designed to run a long way on its own — even overnight —
+without you waking up to confidently-broken code.
 
-It's inspired by harness-engineering practice (Plan→Work→Review loops, PlatformPlatform,
-gsd) and distributed as `agr` skills plus Claude Code agents and commands.
+It blends three influences:
+- an empowered **product team** — a PM/designer/engineer trio, continuous discovery,
+  the four product risks, and dual-track sprints (Marty Cagan, *INSPIRED*);
+- **gated, role-based delegation** (PlatformPlatform-style);
+- **spec-driven, context-disciplined execution** from
+  [get-shit-done](https://github.com/gsd-build/get-shit-done) — durable `.planning/`
+  state, fresh-context subagents, atomic commits, a quick path.
 
-## The core idea: gates, not vibes
+## The core idea: two tracks, gated, never waved through
 
-A team of agents is only as safe as the gates between them. This team has four,
-and **a failed gate sends work back — it is never waved through:**
+Work runs as **two parallel tracks**. Discovery decides *what's worth building* and
+stays a step ahead of delivery, which *builds it in sprints*. Every gate sends work
+back when it fails.
 
 ```
-  intake (a job / email / ticket)
+INTAKE (a job / email / ticket)  →  size it: tiny edit→quick · feature→light · product→full
         │
         ▼
-  ┌──────────────┐   GATE 1  is this worth building?  (painkiller vs vitamin)
-  │  DISCOVERY   │  ── NO-GO ▶ stop, explain.  RESHAPE ▶ confirm narrower scope.
-  └──────────────┘            GO ▶ carry the one-line value proposition forward
+╔══════════════════════ DISCOVERY TRACK (continuous, the trio) ══════════════════════╗
+║  product-manager (value+viability) · product-designer (usability) · tech-lead       ║
+║  (feasibility) — engineers in the room from the START.                              ║
+║  Tackle the FOUR RISKS, prototype to de-risk (cheap), then decide.                  ║
+║      └─ GATE: Product Brief → NO-GO ▶ stop · RESHAPE ▶ renarrow · GO ▶ value prop    ║
+╚═════════════════════════════════════════════════════════════════════════════════════╝
+        │  (discovery stays ahead, feeds validated, de-risked work down ↓)
+        ▼
+╔══════════════════════ DELIVERY TRACK (sprints of thin vertical slices) ═════════════╗
+║  tech-lead: Design Doc + FROZEN CONTRACTS + dev/prod plan, slice the work           ║
+║  per sprint:  coders BUILD (parallel, dev only, tests, atomic commits)              ║
+║               → GATE review: tech-lead (architecture) + code-reviewer (correct/sec) ║
+║               → GATE verify: typecheck·lint·tests·build·PREVIEW URL                  ║
+║               → DEMO the increment to you (rendered preview, not a diff)             ║
+╚═════════════════════════════════════════════════════════════════════════════════════╝
         │
         ▼
-  ┌──────────────┐   GATE 2  what exactly, and how?
-  │  DESIGN      │  ── Design Doc with FROZEN CONTRACTS + dev/prod plan.
-  └──────────────┘            No design ⇒ no code.
-        │
-        ▼
-  work-breakdown → slice into parallel-safe units (owned files, no overlap)
-        │
-        ▼
-  ┌──────────────┐   two CODERs build in parallel, dev/preview only, with tests
-  │  BUILD       │
-  └──────────────┘
-        │
-        ▼
-  ┌──────────────┐   GATE 3  architecture review + correctness/security review
-  │  REVIEW      │  ── CHANGES-REQUESTED ▶ back to the coder, re-review.
-  └──────────────┘
-        │
-        ▼
-  ┌──────────────┐   GATE 4  typecheck · lint · tests · build · PREVIEW URL
-  │  VERIFY      │  ── RED ▶ back to coders with evidence.  GREEN ▶ to the human.
-  └──────────────┘
-        │
-        ▼
-  YOU review the rendered preview  →  ship promotes dev→prod (human-gated)
-        │
-        ▼
-  retro folds lessons back into the team's own files
+  YOU approve the preview  →  ship promotes dev→prod (human-gated)  →  retro tunes the team
 ```
 
-Throughout, the orchestrator keeps durable state in `.planning/` (see below) and
-commits atomically, so a fresh context can resume exactly where the last one
-stopped — the gsd discipline that makes overnight runs real rather than risky.
+The orchestrator keeps durable state in `.planning/` and commits atomically, so a
+fresh context resumes exactly where the last one stopped — the discipline that makes
+overnight runs real rather than risky.
+
+## The four product risks (what discovery actually does)
+
+Discovery's whole job is to retire these cheaply *before* engineering spends on them:
+
+| Risk | Question | Owner |
+|---|---|---|
+| **Value** | will they use / pay for it? (painkiller vs vitamin) | product-manager |
+| **Usability** | can a real person actually use it? | product-designer |
+| **Feasibility** | can we build and run it sanely? | tech-lead |
+| **Viability** | does it work for the agency (margin, GDPR, support tail)? | product-manager |
+
+Attack value first — it's the biggest killer — and **prototype** (a fake-door, a
+clickable mock, a feasibility spike) instead of arguing.
 
 ## The roster
 
 | Role | Construct | Model | Why it exists |
 |---|---|---|---|
-| **Team-lead / orchestrator** | `build` skill (main session) | — | Sequences the loop, enforces gates, keeps `.planning/` state. It's the main session, not a subagent, because only the main thread can actually coordinate and spawn the others. |
-| **Solution architect** | `solution-architect` agent (3 modes) | opus | The judgment role. `discovery` = value-prop gate; `design` = the build's contracts; `review` = architecture + value-prop-drift check. Critical by default. |
-| **Research scout** | `make-research` skill (reused) | — | Pure observation of existing code before changing it. You already owned this. |
-| **Coder ×2** | `coder` agent (spawn in parallel) | sonnet | Build a single bounded unit each, with tests, in dev only. |
-| **Code reviewer** | `code-reviewer` agent | opus | Correctness + security — the bugs that bite in prod. Separate from architecture review. |
-| **Verifier (QA)** | `verifier` agent | sonnet | The mechanical gate: tests/build pass + a live preview URL. This is what makes unattended runs safe. |
-| **Self-improvement** | `agent-retro` skill + `retro` | — | Edits the team's own definitions after each run so it needs fewer corrections over time. |
+| **Orchestrator** | `build` skill (main session) | — | Runs both tracks, enforces gates, keeps `.planning/`. The main thread, not a subagent — only it can coordinate and spawn the others. |
+| **Product manager** | `product-manager` agent | opus | Value + viability. Expert in customer/data/business/industry. Leads discovery; holds the value proposition; critical by default. |
+| **Product designer** | `product-designer` agent | sonnet | Usability + the whole experience. Prototypes to validate; produces production UI via `frontend-design`. |
+| **Tech lead** | `tech-lead` agent | opus | Feasibility + architecture. The engineer *in discovery early*; owns the contracts; leads delivery; reviews architecture. |
+| **Coder ×N (engineers)** | `coder` agent (parallel) | sonnet | Build vertical slices each sprint, with tests, in dev only. Partners, not spec-takers. |
+| **Code reviewer** | `code-reviewer` agent | opus | Correctness + security — the bugs that bite in prod. |
+| **Verifier (QA)** | `verifier` agent | sonnet | The mechanical gate: tests/build pass + a live preview URL. Makes unattended runs safe. |
+| **Research scout** | `make-research` skill | — | Pure observation of existing code before changing it. |
+| **Self-improvement** | `retro` skill | — | Edits the team's own definitions after each run so it needs fewer corrections over time. |
 
-### Why these additions to your original five
-You asked for a team-lead, a discovery architect, two coders, and an architecture
-reviewer. Three things were added because the setup is unsafe without them:
-- **A verifier.** "Agents run overnight, I review the final product" only works if
-  something mechanical proves the build works first. Otherwise the review gate is
-  reviewing rubble.
-- **A separate correctness/security reviewer.** Architecture-fit and "is it
-  correct and safe" are different questions; one reviewer optimizing for both does
-  neither well.
-- **A retro loop.** You said the agents should be tuned after each use — that's a
-  first-class skill, not an afterthought.
+### How this evolved (the INSPIRED pass)
+Earlier the judgment role was a single `solution-architect`. Splitting it into the
+real **product trio** is what *INSPIRED* gets right: value/viability (PM),
+usability/experience (designer), and feasibility/architecture (tech-lead) are
+distinct competencies, and one role doing all three does each badly. The two changes
+that matter most:
+- **Engineers in discovery from the start.** Using engineers only to code gets half
+  their value; the tech-lead surfaces feasibility and better solutions *as ideas
+  form*, not after a spec is frozen.
+- **Dual-track + prototypes.** Discovery runs continuously ahead of delivery and
+  *prototypes to de-risk* before building — so sprints build validated work, not
+  guesses. Adapted to an agency: ceremony scales to the inquiry (a feature ≠ a new
+  product), and we don't pretend a bar's booking page has a product-analytics team.
 
 ## The model/cost map
-Judgment roles (discovery, design, review) run on **opus**; throughput roles
-(coding, verification) run on **sonnet**. This keeps a deep agentic session's
-token cost where it belongs — a rounding error against a project's price — while
-spending the expensive model only where judgment pays for itself. Adjust per task:
-a hard algorithmic unit may warrant opus for a coder; a trivial copy change may not
-warrant the full loop at all.
+Judgment roles (PM, tech-lead, code-reviewer) run on **opus**; throughput roles
+(designer production, coding, verification) on **sonnet**. This keeps a deep session's
+token cost a rounding error against a project's price while spending the expensive
+model only where judgment pays for itself. Adjust per task: a hard unit may warrant
+opus for a coder; a trivial copy change skips the loop entirely (`quick`).
 
 ## How this maps to your agency
 
-- **Discovery** is the behavior from your servicedesk discovery session, made
-  reusable and turned into a gate. Every new client job — and every edit to an
-  existing one — passes through it: *painkiller or vitamin? who pays? does this
-  still match the value proposition? does the edit fit the architecture?* That's
-  exactly the "understand the value before building" instinct you wanted, enforced.
+- **Discovery** is the behavior from your servicedesk session, now run by a trio with
+  engineers present, and turned into a gate. Every new client job — and every edit —
+  passes the four risks: *painkiller or vitamin? who pays? usable by a stressed
+  owner? feasible and cheap to run? does it still match the value proposition?*
 - **dev-prod-isolation** is the heart of doing this for real clients: one workspace
-  per client, agents build only in dev/preview against seeded data, and **you
+  per client, the team builds only in dev/preview against seeded data, and **you
   promote to prod by approving a live preview URL** — never a diff, never an agent
   pushing to a live booking system.
+- **Sprints** mean you see working increments early and often, not a big-bang reveal
+  at the end — and you can redirect cheaply between them.
 - The default stack (Next.js + Vercel/Netlify, preview-per-branch) is chosen for
   exactly the preview→approve→promote flow your model needs.
 
 ## Autonomy & the get-shit-done influence
 
-The first cut had gates but no memory, and you had to name a command for each step.
-Three things from [get-shit-done](https://github.com/gsd-build/get-shit-done) close
-that gap and make the team genuinely autonomous:
+The team is genuinely autonomous because of three gsd-derived pieces:
+- **Durable state in `.planning/`** (`PROJECT.md`, `ROADMAP.md`, per-phase
+  `PLAN.md`/`SUMMARY.md`) so long/overnight runs resume from disk, not a degrading
+  context. See `spec-state`; read it with `progress`.
+- **Fresh-context delegation** — each specialist runs in its own clean window; the
+  main session stays lean. This is how big jobs avoid "context rot."
+- **A quick path + atomic commits** — `quick` handles small edits with a branch and
+  one clean commit; every task is its own atomic commit.
 
-- **Durable state in `.planning/`.** A build writes `PROJECT.md` (what + the value
-  proposition), `ROADMAP.md` (phases + status), and per-phase `PLAN.md`/`SUMMARY.md`.
-  Long or overnight runs resume from disk, not from a degrading chat context. See
-  the `spec-state` skill; read it any time with the `progress` skill.
-- **Fresh-context delegation.** Each specialist (research, coding, review, verify)
-  runs in its own clean window; the main session stays lean. This is how the team
-  avoids "context rot" on big jobs.
-- **A quick path + atomic commits.** Not every task earns the full loop — `quick`
-  handles small edits with a branch and one clean commit. Every task is its own
-  atomic commit so git history and `.planning/` agree.
-
-And **`CLAUDE.md`** is the operating posture: when a task arrives, the main session
-classifies it and routes to the lightest safe path on its own (idea → `discovery`,
-tiny edit → `quick`, real build → `build`, resume → `progress`), and reaches for
-the right method skills without being told. That's the "more autonomous, fits my
-style" layer.
+And **`CLAUDE.md`** is the operating posture: the main session classifies each task
+and routes to the lightest safe path on its own (idea → `discovery`, tiny edit →
+`quick`, real build → `build`, resume → `progress`), reaching for method skills
+without being told.
 
 ## Using it
 
-- **A whole job:** `build <paste the request or client email>` — runs the full loop.
+- **A whole job:** `build <paste the request or client email>` — runs the dual-track loop.
 - **Pressure-test an idea/edit:** `discovery <the idea>` — GO/NO-GO/RESHAPE, builds nothing.
 - **A small edit:** `quick <the change>` — fast path, still safe.
 - **Where are we:** `progress` — reads `.planning/`, says what's next (great for resuming).
 - **Promote an approved change:** `ship <change>` — the dev→prod checklist.
 - **Tune the team:** `retro` — applies lessons to the agent/skill/`CLAUDE.md` files.
-- The subagents (`solution-architect`, `coder`, `code-reviewer`, `verifier`) are
-  also invokable directly when you want one step.
+- The subagents (`product-manager`, `product-designer`, `tech-lead`, `coder`,
+  `code-reviewer`, `verifier`) are also invokable directly when you want one step.
 
-You usually won't type these — with `CLAUDE.md` installed, the session routes
-itself. Naming a skill is the override, not the default.
+You usually won't type these — with `CLAUDE.md` installed, the session routes itself.
+Naming a skill is the override, not the default. New to the team? Read
+[`GETTING-STARTED.md`](GETTING-STARTED.md).
 
 ## Extending the team
-Add a skill with the `skill-creator` skill, drop new agents in `.claude/agents/`,
-new entry points as skills in `.claude/skills/`, then re-run
-`scripts/install-global.sh` (or `agr sync -g`) to push the update everywhere. Keep
-agent prompts lean and push the detailed "how" into skills — the progressive-
-disclosure pattern that keeps the harness maintainable. Let `retro` drive most
-changes; resist accreting rules.
+Add a skill with the `skill-creator` skill, drop new agents in `.claude/agents/`, new
+entry points as skills in `.claude/skills/`, then re-run `scripts/install-global.sh`
+(or `agr sync -g`) to push the update everywhere. Keep agent prompts lean and push
+the detailed "how" into skills — the progressive-disclosure pattern that keeps the
+harness maintainable. Let `retro` drive most changes; resist accreting rules.

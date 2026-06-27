@@ -3,6 +3,22 @@
 The evolution log of the agent team. `/retro` appends here whenever a run exposes
 a weakness and a definition is edited to fix it. Newest first.
 
+## 2026-06-27 — INSPIRED product-team model
+- Reshaped the judgment role into a real product **trio** (Marty Cagan, *INSPIRED*):
+  replaced the single `solution-architect` with `product-manager` (value + viability;
+  customer/data/business/industry expert), `product-designer` (usability + experience;
+  prototyping), and `tech-lead` (feasibility + architecture; engineer in discovery
+  early, leads delivery, reviews architecture).
+- Reframed `build` as a **dual-track** loop: continuous discovery (the trio tackling
+  the four risks — value/usability/feasibility/viability — and prototyping to de-risk)
+  feeding **sprint delivery** of thin vertical slices. Ceremony scales to the inquiry
+  (feature vs new product).
+- New skills: `product-discovery`, `prototype-to-validate`, `sprint-delivery`.
+- Updated `coder` (engineers are partners building in sprints), `discovery`,
+  `code-review-rubric`/`code-reviewer` (architecture dimension now owned by tech-lead),
+  CLAUDE.md (team + engineers-early non-negotiable), README, AGENT-TEAM playbook.
+- Added `docs/GETTING-STARTED.md` — a newcomer's guide.
+
 ## 2026-06-22 — get-shit-done influence + autonomy pass
 - Studied the real get-shit-done repo and folded in its core ideas: durable
   `.planning/` state (`spec-state` skill), fresh-context delegation, atomic commits,

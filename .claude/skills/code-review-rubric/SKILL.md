@@ -2,7 +2,7 @@
 name: code-review-rubric
 description: >
   The shared review rubric for the team. Use when reviewing a diff. Covers three
-  dimensions — architecture/design-fit (solution-architect), correctness, and
+  dimensions — architecture/design-fit (tech-lead), correctness, and
   security (code-reviewer). Defines severities and a verdict format so reviews are
   specific, falsifiable, and gate promotion consistently.
 ---
@@ -10,7 +10,7 @@ description: >
 # Code Review Rubric
 
 A review is a gate, not a vibe. Every finding is specific, falsifiable, and tagged
-with a severity. Two reviewers use this: the solution-architect (architecture
+with a severity. Two reviewers use this: the tech-lead (architecture
 section) and the code-reviewer (correctness + security sections).
 
 ## Severities
@@ -21,7 +21,7 @@ section) and the code-reviewer (correctness + security sections).
 - **medium** — should fix; can be a fast follow.
 - **nit** — style/clarity; optional.
 
-## Dimension 1 — Architecture & design-fit (solution-architect)
+## Dimension 1 — Architecture & design-fit (tech-lead)
 
 - Does the code do what the Design Doc said, with the components and boundaries it
   specified?
