@@ -98,6 +98,12 @@ agr sync                                   # everything in agr.toml
 Agents live in `.claude/agents/`; copy them into another project's `.claude/` (or
 install globally) to use the full team there.
 
+**Into another repo (e.g. servicedesk), incl. cloud sessions:** run the bootstrap
+from inside the target repo —
+`bash <(curl -fsSL https://raw.githubusercontent.com/mhogild/agent-resources/main/scripts/bootstrap-into-repo.sh) servicedesk` —
+which installs the team's `.claude/` and an internal-platform `CLAUDE.md`, then commit
+it. See [`docs/servicedesk-setup.md`](docs/servicedesk-setup.md).
+
 ## Layout
 
 ```

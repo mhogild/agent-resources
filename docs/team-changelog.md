@@ -3,6 +3,13 @@
 The evolution log of the agent team. `/retro` appends here whenever a run exposes
 a weakness and a definition is edited to fix it. Newest first.
 
+## 2026-06-27 — servicedesk install path
+- Added `scripts/bootstrap-into-repo.sh` (agent-resources is public, so no auth) to
+  install the team's `.claude/` + the servicedesk `CLAUDE.md` into any target repo,
+  including Claude Code on the web sessions.
+- Added `docs/servicedesk-setup.md`: how to bring the team to servicedesk and ask it
+  for a code-level feasibility audit in a session that has the real code.
+
 ## 2026-06-27 — internal-platform profile (servicedesk fit)
 - Adapted the team for internal/platform software (the agent-resources team was tuned
   for client deliverables; servicedesk is an own, always-on, multi-tenant platform).
