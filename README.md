@@ -61,8 +61,9 @@ them on its own — classify the task, then route to the lightest safe path.
 
 `product-discovery` · `prototype-to-validate` · `sprint-delivery` ·
 `discovery-value-proposition` · `discover-solution-space` · `architecture-design` ·
-`work-breakdown` · `spec-state` · `dev-prod-isolation` · `code-review-rubric` ·
-`verify-changes` · `agent-retro` — alongside consumed skills (`frontend-design`,
+`work-breakdown` · `spec-state` · `dev-prod-isolation` · `threat-model` ·
+`platform-reliability` · `code-review-rubric` · `verify-changes` · `agent-retro` —
+alongside consumed skills (`frontend-design`,
 `make-research`, `skill-creator`, `doc-coauthoring`, `pptx`, `project-cleanup`).
 
 ## Durable state (`.planning/`)

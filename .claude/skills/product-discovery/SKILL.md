@@ -42,6 +42,25 @@ retire risk cheaply, not to write a big document.
   booking product needs all four risks worked and a prototype. Discovery runs a
   step *ahead* of delivery, feeding it validated, de-risked work.
 
+## Variant: internal platform / tooling (not a client deliverable)
+
+When the thing being built is *your own* infrastructure — an internal tool, an
+always-on platform like the service desk — the four risks read differently. Don't
+ask "painkiller vs vitamin, who pays": there's no external buyer. Re-point them:
+- **Value = operational ROI** — hours saved, errors cut, jobs you can take on that
+  you couldn't before. Measure in ops metrics, not willingness-to-pay.
+- **Usability = can the operator (you) actually run it** day to day without it
+  becoming a second job.
+- **Feasibility** — load `platform-reliability`: always-on jobs, queues, ingestion,
+  observability, cost.
+- **Viability = run-cost + security + the support burden you now own forever** —
+  load `threat-model` (multi-tenant isolation, secrets, the Agent-SDK boundary,
+  GDPR-processor duties). For an internal platform this is the *dominant* risk, not
+  an afterthought.
+
+A repo can set this lens permanently via its own `CLAUDE.md` (see the
+`templates/servicedesk-CLAUDE.md` example).
+
 ## Output
 
 A **Product Brief** (write it to `.planning/PROJECT.md`): the customer & problem,

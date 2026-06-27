@@ -32,6 +32,12 @@ coders build in parallel without colliding. Include the data model and, via
 `dev-prod-isolation`, the dev/prod + preview plan. Default stack: Next.js + Vercel,
 preview-per-branch, separate dev/prod databases.
 
+**For platform / always-on software** (an internal tool, a multi-tenant service that
+holds client data or runs agents on untrusted input), this is feasibility-critical:
+load `threat-model` (tenant isolation, secrets, the Agent-SDK boundary, GDPR) and
+`platform-reliability` (queues, ingestion, observability, LLM cost) during design,
+and make both gate promotion — not just diff-level review.
+
 ## Leading delivery
 Load `sprint-delivery` and `work-breakdown`: slice the validated product into thin
 **vertical slices** that each ship something demoable, sequence them into sprints,

@@ -30,6 +30,8 @@ dependencies = [
     {path = "./.claude/skills/work-breakdown", type = "skill"},
     {path = "./.claude/skills/spec-state", type = "skill"},
     {path = "./.claude/skills/dev-prod-isolation", type = "skill"},
+    {path = "./.claude/skills/threat-model", type = "skill"},
+    {path = "./.claude/skills/platform-reliability", type = "skill"},
     {path = "./.claude/skills/code-review-rubric", type = "skill"},
     {path = "./.claude/skills/verify-changes", type = "skill"},
     {path = "./.claude/skills/agent-retro", type = "skill"},

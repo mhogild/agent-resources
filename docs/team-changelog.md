@@ -3,6 +3,19 @@
 The evolution log of the agent team. `/retro` appends here whenever a run exposes
 a weakness and a definition is edited to fix it. Newest first.
 
+## 2026-06-27 — internal-platform profile (servicedesk fit)
+- Adapted the team for internal/platform software (the agent-resources team was tuned
+  for client deliverables; servicedesk is an own, always-on, multi-tenant platform).
+- New skills: `threat-model` (system-level security — tenant isolation, secrets, the
+  Agent-SDK/untrusted-input boundary, GDPR) and `platform-reliability` (jobs/queues/
+  ingestion idempotency, failure handling, observability, LLM cost control). Both gate
+  promotion for platform features.
+- Added an **internal platform / tooling variant** to `product-discovery` (value = ROI,
+  viability = run-cost + security, not market demand) and pointed `tech-lead` at the
+  two new skills for platform work.
+- Added `templates/servicedesk-CLAUDE.md` — a drop-in repo profile that re-points the
+  trio for servicedesk without building a separate team. Wired skills into agr.toml.
+
 ## 2026-06-27 — INSPIRED product-team model
 - Reshaped the judgment role into a real product **trio** (Marty Cagan, *INSPIRED*):
   replaced the single `solution-architect` with `product-manager` (value + viability;
